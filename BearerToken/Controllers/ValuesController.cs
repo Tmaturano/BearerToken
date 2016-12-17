@@ -4,14 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 
-namespace BearerToken.Controller
+namespace BearerToken.Controllers
 {
     public class ValuesController : ApiController
     {
         [Authorize]
         public string Get()
         {
-            return User.Identity.Name;
+            return $"Usuario Logado: {User.Identity.Name}";
         }
     }
 }

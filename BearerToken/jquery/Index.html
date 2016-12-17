@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>JQuery Authentication</title>
+	<meta charset="utf-8" />
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />    
+</head>
+<body>
+    <div class="container">
+        <h1>Authentication with Bearer Token and JQuery</h1>
+        <div class="alert alert-warning alert-dismissable">
+            <strong>To test the authentication with JQuery, go to Web.Config and comment the authentication tag!</strong>
+        </div>
+
+        <div class="form-group">
+            <input type="text" id="userName" value="" placeholder="User Name" /> <br />
+            <input type="password" id="password" value="" placeholder="Password" /> <br />
+        </div>
+        <div class="form-group">
+            <input type="submit" id="authButton" value="Login" class="btn btn-default" />
+            <input type="submit" id="requestButton" value="Make Request" class="btn btn-primary" />
+        </div>
+
+        <div id="resultArea"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //Clean up the token every time the application is loaded to force the user to authentication every time
+            //localStorage.setItem('jtoken', '');
+
+            $('#authButton').on('click', function () {
+                var data = {
+                    grant_type: 'password',
+                    username: $('#userName').val(),
+                    password: $('#password').val()
+                }
+
+                $.ajax({
+                    url: 'http://localhost:50926/api/security/token',
+                    type: 'post',
+                    contentType: 'x-www-form-urlencoded',
+                    data: data
+                })
+                .done(function (data) {
+                    console.log(data);
+                    $('#resultArea').html('');
+                    $('#resultArea').append('<p>' + data.access_token + '</p>');
+                    localStorage.setItem('jtoken', data.access_token);
+                })
+                .error(function (data) {
+                    $('#resultArea').html('');
+                    $('#resultArea').append('<p>User or Password invalid</p>');
+                });
+
+            });
+
+            
+            $('#requestButton').on('click', function () {
+                //try to get a token on localStorage(on client browser, even if he closes the browser, could be a cookie aswell)
+                //Could use sessionStorage, but if we close the browser, we would lost the token.
+                var token = localStorage.getItem('jtoken');
+                //https://www.youtube.com/watch?v=c4Fden4jptc
+                $.ajax({
+                    url: 'http://localhost:50926/api/values',
+                    type: 'get',
+                    contentType: 'application/json',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+                .done(function (data) {
+                    $('#resultArea').append('<p>' + data + '</p>');
+                })
+                .error(function (data) {
+                    $('#resultArea').html('');
+                    $('#resultArea').append('<p>Fail on Request</p>');
+                });
+
+            });
+
+        });
+    </script>
+</body>
+</html>
