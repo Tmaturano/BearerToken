@@ -20,3 +20,6 @@ This simple project shows how to work with authentication and tokens in Asp.Net 
 ### Example: 
 Key: Authorization
 Value: Bearer 9KyjbYnzzbcQFZBYT2AcN6i2W32A182asyJXnSx5XxrATIjOBhVpO9nfy5MIXEHaYzZ8HRorNWCo0dngMGumSAbKPoPo0uD4HwkI85DmBm8nWMxlPT4-zZ1Y9PH87x7P4wNjgHIT5r68G-Qxek5RfdUpfV_ir4FQ3LI1nRSxZglwAuKuW-kaYq5rJ4fqrRY2Db1MWltqbuajs5IftQckR7IVVKscIajA5YRSwxDHBE337vVBeEuE0QiYzyqZaH1mvySpoG8EQk35H4ZbBrq3I6HQyeV_vROL-jhhZZDaxgfAxlPDAM-taNTbQHruidjv
+
+##News:
+* Added examples with jQuery and Angular 1.x
